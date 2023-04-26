@@ -1,5 +1,6 @@
 const path = require('path');
 const User = require('../models/userModel');
+const bcrypt = require('bcrypt');
 
 exports.getLoginPage = (req, res, next) => {
     res.sendFile(path.join(__dirname, "../", "public", "views", "login.html"));
@@ -12,11 +13,13 @@ exports.postUserSignUp = async (req, res, next) => {
         if(existingUser){
             return res.status(400).json({message: "User already exists"});
         }
+        const hashedPassword = await bcrypt.hash(password, 10);
         const result = await User.create({
             name: name,
             email: email,
-            password: password
+            password: hashedPassword
         });
+        res.status(201).json({user:result});
     }
     catch(error){
         console.log(error);
@@ -31,8 +34,10 @@ exports.postUserLogin = async (req, res, next) => {
         if(!existingUser){
             return res.status(404).json({message: "User not found"});
         }
-        if(existingUser.password === password){
-            res.status(200).json({message:"Login Successfull"});
+        const matchedPassword = await bcrypt.compare(password, existingUser.password);
+
+        if(!matchedPassword){
+            res.status(400).json({message:"Invalid Credentials"});
         }
     }
     catch(error){
