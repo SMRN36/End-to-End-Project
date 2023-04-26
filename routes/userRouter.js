@@ -4,8 +4,6 @@ const userController = require('../controllers/userController');
 
 router.use(express.static("public"));
 router.get("/", userController.getLoginPage);
-router.post("/signUp", (req, res, next) => {
-    res.redirect("/");
-});
+router.post("/signup", userController.postUserSignUp);
 
 module.exports = router;
