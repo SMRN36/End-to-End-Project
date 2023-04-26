@@ -23,3 +23,20 @@ exports.postUserSignUp = async (req, res, next) => {
         res.status(500).json({message:"Something Went Wrong"});
     }
 }
+
+exports.postUserLogin = async (req, res, next) => {
+    const {email, password} = req.body;
+    try{
+        const existingUser = await User.findOne({email : email});
+        if(!existingUser){
+            return res.status(404).json({message: "User not found"});
+        }
+        if(existingUser.password === password){
+            res.status(200).json({message:"Login Successfull"});
+        }
+    }
+    catch(error){
+        console.log(error);
+        res.status(500).json({message:"Something Went Wrong"});
+    }
+}
