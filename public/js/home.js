@@ -45,14 +45,18 @@ async function addExpense() {
 
     const dateStr = `${formattedDay}-${formattedMonth}-${year}`;
 
-
+    const token = localStorage.getItem("token");
     const res = await axios
-      .post("http://localhost:3000/expense/addExpense", {
+    .post(
+      "http://localhost:3000/expense/addExpense",
+      {
         date: dateStr,
         category: categoryValue,
         description: descriptionValue,
         amount: parseInt(amountValue),
-      })
+      },
+      { headers: { Authorization: token } }
+    )
       .then((res) => {
         if (res.status == 200) {
           window.location.reload();
@@ -69,8 +73,11 @@ async function addExpense() {
 async function getAllExpenses() {
   // e.preventDefault();
   try {
-    const res = await axios.get("http://localhost:3000/expense/getAllExpenses");
-    console.log(res.data);
+    const token = localStorage.getItem("token");
+    const res = await axios.get(
+      "http://localhost:3000/expense/getAllExpenses",
+      { headers: { Authorization: token } }
+    );
     res.data.forEach((expenses) => {
       const id = expenses.id;
       const date = expenses.date;
@@ -130,11 +137,13 @@ async function getAllExpenses() {
 
 async function deleteExpense(e) {
   try {
+    const token = localStorage.getItem("token");
     if (e.target.classList.contains("delete")) {
       let tr = e.target.parentElement.parentElement;
       let id = tr.children[0].textContent;
       const res = await axios.get(
-        `http://localhost:3000/expense/deleteExpense/${id}`
+        `http://localhost:3000/expense/deleteExpense/${id}`,
+        { headers: { Authorization: token } }
       );
       window.location.reload();
     }
@@ -145,6 +154,7 @@ async function deleteExpense(e) {
 
 async function editExpense(e) {
   try {
+    const token = localStorage.getItem("token");
     const categoryValue = document.getElementById("categoryBtn");
     const descriptionValue = document.getElementById("descriptionValue");
     const amountValue = document.getElementById("amountValue");
@@ -154,11 +164,12 @@ async function editExpense(e) {
       let id = tr.children[0].textContent;
 
       const res = await axios.get(
-        "http://localhost:3000/expense/getAllExpenses"
+        "http://localhost:3000/expense/getAllExpenses",
+        { headers: { Authorization: token } }
       );
       res.data.forEach((expense) => {
         if (expense.id == id) {
-          console.log("Yeh id aayi hai res main: " + expense.id);
+          //console.log("Yeh id aayi hai res main: " + expense.id);
           categoryValue.textContent = expense.category;
           descriptionValue.value = expense.description;
           amountValue.value = expense.amount;
@@ -176,7 +187,8 @@ async function editExpense(e) {
                 category: categoryValue.textContent.trim(),
                 description: descriptionValue.value,
                 amount: amountValue.value,
-              }
+              },
+              { headers: { Authorization: token } }
             );
             window.location.reload();
           });

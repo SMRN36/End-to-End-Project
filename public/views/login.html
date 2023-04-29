@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SignUp and Login</title>
+    <title>SignUp and SignIn</title>
     <link rel="stylesheet" href="/css/login.css" />
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
@@ -18,18 +18,18 @@
             <input type="text" name="name" placeholder="Name">
             <input type="email" name="email" placeholder="Email">
             <input type="password" name="password" placeholder="Password">
-            <button>SignUp</button>
+            <button id="signUpBtn">Sign Up</button>
         </form>
         </div>
         <div class="form-container sign-in-container">
-            <form action="/user/login" method="post">
+            <form onsubmit="return false;">
                 <h1>Sign In</h1>
                 <span>use your credentials to login</span>
-            <input type="email" name="email" placeholder="Email">
-            <input type="password" name="password" placeholder="Password">
+                <input type="email" placeholder="Email" name="loginEmail" id="loginEmail" required/>
+                <input type="password" placeholder="Password" name="loginPassword" id="loginPassword" required/>
             <a href="#">Forgot Your Password</a>
         
-            <button>Sign In</button>
+            <button id="loginBtn">Sign In</button>
             </form>
         </div>
         <div class="overlay-container">

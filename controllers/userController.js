@@ -1,48 +1,75 @@
-const path = require('path');
-const User = require('../models/userModel');
-const bcrypt = require('bcrypt');
+const path = require("path");
+const User = require("../models/userModel");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+
+function generateAccessToken(id, email) {
+  return jwt.sign(
+    { userId: id, email: email },
+    "dmggkfhdiflhdudmlfjfldnbdndggfkfubdk"
+  );
+}
 
 exports.getLoginPage = (req, res, next) => {
-    res.sendFile(path.join(__dirname, "../", "public", "views", "login.html"));
+  res.sendFile(path.join(__dirname, "../", "public", "views", "login.html"));
 };
-
-exports.postUserSignUp = async (req, res, next) => {
-    const {name, email, password} = req.body;
-    try{
-        const existingUser = await User.findOne({email : email});
-        if(existingUser){
-            return res.status(400).json({message: "User already exists"});
-        }
-        const hashedPassword = await bcrypt.hash(password, 10);
-        const result = await User.create({
+exports.postUserSignUp = (req, res, next) => {
+  const name = req.body.name;
+  const email = req.body.email;
+  const password = req.body.password;
+  User.findOne({ where: { email: email } })
+    .then((user) => {
+      if (user) {
+        res
+          .status(409)
+          .send(
+            `<script>alert('This email is already taken. Please choose another one.'); window.location.href='/'</script>`
+          );
+      } else {
+        bcrypt.hash(password, 10, async (err, hash) => {
+          await User.create({
             name: name,
             email: email,
-            password: hashedPassword
+            password: hash,
+          });
         });
-        res.status(201).json({user:result});
-    }
-    catch(error){
-        console.log(error);
-        res.status(500).json({message:"Something Went Wrong"});
-    }
-}
-
-exports.postUserLogin = async (req, res, next) => {
-    const {email, password} = req.body;
-    try{
-        const existingUser = await User.findOne({email : email});
-        if(!existingUser){
-            return res.status(400).json({message: "User not found"});
+        res
+          .status(200)
+          .send(
+            `<script>alert('User Created Successfully!'); window.location.href='/'</script>`
+          );
+      }
+    })
+    .catch((err) => console.log(err));
+};
+exports.postUserLogin = (req, res, next) => {
+  const email = req.body.loginEmail;
+  const password = req.body.loginPassword;
+  User.findOne({ where: { email: email } }).then((user) => {
+    if (user) {
+      bcrypt.compare(password, user.password, (err, result) => {
+        if (err) {
+            return res
+            .status(500).json({ success: false, message: "Something went Wrong!" });
         }
-        const matchedPassword = await bcrypt.compare(password, existingUser.password);
-
-        if(!matchedPassword){
-            res.status(400).json({message:"Invalid Credentials"});
-        }
-        res.status(201).json({message:"User LoggedIn Successfully"});
-    }
-    catch(error){
-        console.log(error);
-        res.status(500).json({message:"Something Went Wrong"});
-    }
-}
+        if (result == true) {
+            return res.status(200).json({
+              success: true,
+              message: "Login Successful!",
+              token: generateAccessToken(user.id, user.email),
+            });
+          } else {
+            return res.status(401).json({
+                success: false,
+                message: "Password Incorrect!",
+              });
+            }
+          });
+        } else {
+            return res.status(404).json({
+                success: false,
+                message: "User doesn't Exists!",
+              });
+            }
+          });
+        };
