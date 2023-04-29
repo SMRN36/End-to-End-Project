@@ -38,18 +38,19 @@
               <a class="nav-link active" aria-current="page" href="/home">Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#"
+              <a id="reportsLink" class="nav-link active" aria-current="page" href="#" onclick="onClickAlert();"
                 >Reports</a
               >
             </li>
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#"
+              <a id="leaderboardLink" class="nav-link active" aria-current="page" href="#" onclick="onClickAlert();"
                 >LeaderBoard</a
               >
             </li>
           </ul>
           <div class="d-grid gap-2 d-md-flex justify-content-md-end">
             <button
+              id="buyPremiumBtn"
               class="topBtn btn py-1"
               type="button"
               data-bs-toggle="tooltip"
@@ -177,5 +178,11 @@
       referrerpolicy="no-referrer"
       ></script>
     <script src="/js/home.js"></script>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script>
+            function onClickAlert() {
+              alert("Buy Premium to access this feature.");
+            }
+    </script>
   </body>
 </html>
