@@ -1,5 +1,6 @@
 const path = require("path");
 const Expense = require("../models/expenseModel");
+const User = require("../models/userModel");
 //const database = require("../util/database");
 
 exports.getHomePage = async (req, res, next) => {
@@ -15,6 +16,14 @@ exports.addExpense = async (req, res, next) => {
   const category = req.body.category;
   const description = req.body.description;
   const amount = req.body.amount;
+  User.update(
+    {
+      totalExpenses: req.user.totalExpenses + amount,
+    },
+    { where: { id: req.user.id } }
+  );
+
+
   try {
     const result = await Expense.create({
       date: date,
@@ -41,30 +50,50 @@ exports.getAllExpenses = async (req, res, next) => {
 
 exports.deleteExpense = async (req, res, next) => {
   const id = req.params.id;
-  try {
-    const result = await Expense.destroy({ where: { id: id, userId: req.user.id } });
-    res.redirect("/home");
-  } catch (err) {
-    console.log(err);
-  }
-};
-
-exports.editExpense = async (req, res, next) => {
-  const id = req.params.id;
-  const category = req.body.category;
-  const description = req.body.description;
-  const amount = req.body.amount;
-  try {
-    const result = await Expense.update(
-      {
-        category: category,
-        description: description,
-        amount: amount,
+  console.log(id, req.user.id);
+    try {
+      const expense = await Expense.findByPk(id);
+      await User.update({
+        totalExpenses: req.user.totalExpenses - expense.amount,
       },
-      { where: { id: id, userId: req.user.id } }
-    );
-    res.redirect("/home");
-  } catch (err) {
-    console.log(err);
-  }
-};
+      { where: { id: req.user.id } }
+      );
+      await Expense.destroy({ where: { id: id, userId: req.user.id } });
+        res.redirect("/home");
+      } catch (err) {
+        console.log(err);
+    }
+  };
+
+  exports.editExpense = async (req, res, next) => {
+    try {
+      const id = req.params.id;
+      console.log(req.body);
+      const category = req.body.category;
+      const description = req.body.description;
+      const amount = req.body.amount;
+  
+      const expense = await Expense.findByPk(id);
+  
+      await User.update(
+        {
+          totalExpenses: req.user.totalExpenses - expense.amount + amount,
+        },
+        { where: { id: req.user.id } }
+      );
+  
+      await Expense.update(
+        {
+          category: category,
+          description: description,
+          amount: amount,
+        },
+        { where: { id: id, userId: req.user.id } }
+      );
+  
+      res.redirect("/home");
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  
