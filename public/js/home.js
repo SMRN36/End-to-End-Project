@@ -244,7 +244,8 @@ async function isPremiumUser() {
     buyPremiumBtn.innerHTML = "Premium Member &#128081";
     reportsLink.removeAttribute("onclick");
     leaderboardLink.removeAttribute("onclick");
-    leaderboardLink.setAttribute("href", "/premium/getLeaderboardPage");
+    leaderboardLink.setAttribute("href", "/premium/getLeaderboard");
+    reportsLink.setAttribute("href", "/reports/getReports");
     buyPremiumBtn.removeEventListener("click", buyPremium);
   } else {
   }
