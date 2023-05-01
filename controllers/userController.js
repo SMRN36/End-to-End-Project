@@ -6,10 +6,8 @@ const db = require("../utils/database");
 //const Sib = require("sib-api-v3-sdk");
 
 function generateAccessToken(id, email) {
-  return jwt.sign(
-    { userId: id, email: email },
-    "dmggkfhdiflhdudmlfjfldnbdndggfkfubdk"
-  );
+  return jwt.sign({ userId: id, email: email }, process.env.TOKEN);
+  
 }
 
 const isPremiumUser = async (req, res, next) => {
