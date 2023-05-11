@@ -51,7 +51,7 @@ exports.getAllExpenses = async (req, res, next) => {
 exports.getAllExpensesPagination = async (req, res, next) => {
   try {
     const pageNo = req.params.page;
-    const limit = 10;
+    const limit = 5;
     const offset = (pageNo - 1) * limit;
     const totalExpenses = await Expense.count({
       where: { userId: req.user.id },

@@ -6,6 +6,7 @@ const ResetPassword = db.define("ResetPassword", {
     type: sequelize.STRING,
     primaryKey: true,
     allowNull: false,
+    //autoIncrement: true,
   },
   isActive: sequelize.BOOLEAN,
 });

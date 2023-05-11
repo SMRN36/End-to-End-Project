@@ -5,6 +5,7 @@ const signUpBtn = document.getElementById("signUpBtn");
 const loginBtn = document.getElementById("loginBtn");
 const loginEmail = document.getElementById("loginEmail");
 const loginPassword = document.getElementById("loginPassword");
+//const axios = require('axios');
 
 signUp.addEventListener("click", () => {
   container.classList.add("right-panel-active");
