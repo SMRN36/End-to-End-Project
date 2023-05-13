@@ -227,7 +227,7 @@ async function deleteExpense(e) {
       let tr = e.target.parentElement.parentElement;
       let id = tr.children[0].textContent;
       const res = await axios.get(
-        `https://expense-tracker-zfmk.onrender.com/deleteExpense/${id}`,
+        `https://expense-tracker-zfmk.onrender.com/expense/deleteExpense/${id}`,
         { headers: { Authorization: token } }
       );
       window.location.reload();
