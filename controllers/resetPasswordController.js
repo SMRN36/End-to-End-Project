@@ -58,9 +58,9 @@
 //       sender,
 //       To: receivers,
 //       subject: "Reset Password Link",
-//       textContent: `http://localhost:3000/password/resetPasswordPage/${requestId}`,
+//       textContent: `https://expense-tracker-zfmk.onrender.com/resetPasswordPage/${requestId}`,
 //       //htmlContent: `<h3>Hi! We recieved the request from you for reset password. Here is the link below >>></h3>
-//       //<a href="http://localhost:3000/password/resetPasswordPage/${requestId}"> Click Here</a>`,
+//       //<a href="https://expense-tracker-zfmk.onrender.com/password/resetPasswordPage/${requestId}"> Click Here</a>`,
       
 //     });
 //     return res.status(200).json({
@@ -159,7 +159,7 @@ exports.sendMail = async (req, res, next) => {
       sender,
       to: receivers,
       subject: 'Reset Your Password',
-      textContent: `http://localhost:3000/password/resetPasswordPage/${sendUuid}`,
+      textContent: `https://expense-tracker-zfmk.onrender.com/password/resetPasswordPage/${sendUuid}`,
     });
     return res.status(200).json({ message: 'Reset password link has been sent to your email address!' });
   } catch (error) {

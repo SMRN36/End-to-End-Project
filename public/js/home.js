@@ -52,7 +52,7 @@ async function addExpense() {
     const token = localStorage.getItem("token");
     const res = await axios
     .post(
-      "http://localhost:3000/expense/addExpense",
+      "https://expense-tracker-zfmk.onrender.com/expense/addExpense",
       {
         date: dateStr,
         category: categoryValue,
@@ -79,7 +79,7 @@ async function getAllExpenses() {
   try {
     const token = localStorage.getItem("token");
     const res = await axios.get(
-      "http://localhost:3000/expense/getAllExpenses/1",
+      "https://expense-tracker-zfmk.onrender.com/expense/getAllExpenses/1",
       { headers: { Authorization: token } }
     );
     res.data.expenses.forEach((expenses) => {
@@ -157,7 +157,7 @@ async function paginationBtn(e) {
     const pageNo = e.target.textContent;
     const token = localStorage.getItem("token");
     const res = await axios.get(
-      `http://localhost:3000/expense/getAllExpenses/${pageNo}`,
+      `https://expense-tracker-zfmk.onrender.com/expense/getAllExpenses/${pageNo}`,
       { headers: { Authorization: token } }
     );
 
@@ -227,7 +227,7 @@ async function deleteExpense(e) {
       let tr = e.target.parentElement.parentElement;
       let id = tr.children[0].textContent;
       const res = await axios.get(
-        `http://localhost:3000/expense/deleteExpense/${id}`,
+        `https://expense-tracker-zfmk.onrender.com/deleteExpense/${id}`,
         { headers: { Authorization: token } }
       );
       window.location.reload();
@@ -249,7 +249,7 @@ async function editExpense(e) {
       let id = tr.children[0].textContent;
 
       const res = await axios.get(
-        "http://localhost:3000/expense/getAllExpenses",
+        "https://expense-tracker-zfmk.onrender.com/expense/getAllExpenses",
         { headers: { Authorization: token } }
       );
       res.data.forEach((expense) => {
@@ -267,7 +267,7 @@ async function editExpense(e) {
             e.preventDefault();
             console.log("request to backend for edit");
             const res = await axios.post(
-              `http://localhost:3000/expense/editExpense/${id}`,
+              `https://expense-tracker-zfmk.onrender.com/expense/editExpense/${id}`,
               {
                 category: categoryValue.textContent.trim(),
                 description: descriptionValue.value,
@@ -287,7 +287,7 @@ async function editExpense(e) {
 async function buyPremium(e) {
   const token = localStorage.getItem("token");
   const res = await axios.get(
-    "http://localhost:3000/purchase/premiumMembership",
+    "https://expense-tracker-zfmk.onrender.com/purchase/premiumMembership",
     { headers: { Authorization: token } }
   );
   console.log(res);
@@ -297,7 +297,7 @@ async function buyPremium(e) {
     
     handler: async function (response) {
       const res = await axios.post(
-        "http://localhost:3000/purchase/updateTransactionStatus",
+        "https://expense-tracker-zfmk.onrender.com/purchase/updateTransactionStatus",
         {
           order_id: options.order_id,
           payment_id: response.razorpay_payment_id,
@@ -319,7 +319,7 @@ async function buyPremium(e) {
 
 async function isPremiumUser() {
   const token = localStorage.getItem("token");
-  const res = await axios.get("http://localhost:3000/user/isPremiumUser", {
+  const res = await axios.get("https://expense-tracker-zfmk.onrender.com/user/isPremiumUser", {
     headers: { Authorization: token },
   });
   if (res.data.isPremiumUser) {
