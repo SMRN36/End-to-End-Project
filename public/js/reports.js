@@ -24,7 +24,7 @@ async function getDailyReport(e) {
 
     let totalAmount = 0;
     const res = await axios.post(
-      "https://expense-tracker-zfmk.onrender.com/reports/daily",
+      "http://localhost:3000/reports/daily",
       {
         date: formattedDate,
       },
@@ -94,7 +94,7 @@ async function getMonthlyReport(e) {
 
     let totalAmount = 0;
     const res = await axios.post(
-      "https://expense-tracker-zfmk.onrender.com/reports/monthly",
+      "http://localhost:3000/reports/monthly",
       {
         month: formattedMonth,
       },

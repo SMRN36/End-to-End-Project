@@ -21,7 +21,7 @@ function login() {
   };
 
   axios
-    .post("https://expense-tracker-zfmk.onrender.com/user/login", loginDetails)
+    .post("http://localhost:3000/user/login", loginDetails)
     .then((result) => {
       alert(result.data.message);
       localStorage.setItem("token", result.data.token);
