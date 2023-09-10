@@ -4,7 +4,7 @@ async function updatePassword() {
   try {
     const newPassword = document.getElementById("newPassword").value;
     const res = await axios.post(
-      "http://localhost:3000/password/resetPassword",
+      "https://expensetracker-qiya.onrender.com/password/resetPassword",
       {
         password: newPassword,
       }
