@@ -41,7 +41,7 @@ exports.sendMail = async (req, res, next) => {
       sender,
       to: receivers,
       subject: 'Reset Your Password',
-      textContent: `https://expense-tracker-zfmk.onrender.com/password/resetPasswordPage/${sendUuid}`,
+      textContent: `http://localhost:3000/password/resetPasswordPage/${sendUuid}`,
     });
     return res.status(200).json({ message: 'Reset password link has been sent to your email address!' });
   } catch (error) {
@@ -52,11 +52,11 @@ exports.sendMail = async (req, res, next) => {
 
 
 exports.resetPasswordPage = async (req, res, next) => {
-  console.log("Reset Password Initiated");
+  //console.log("Reset Password Initiated");
   const reqId = req.params.requestId;
-  console.log('reqId-----------------', reqId);
+  //console.log('reqId-----------------', reqId);
   const dbuuid = await FPR.findAll({where:{uuid:reqId}});
-  console.log('dbuuid------------------', dbuuid);
+  //console.log('dbuuid------------------', dbuuid);
   if(dbuuid.length === 0){
     res.status(500).send('Bad Request, try again');
   }
@@ -183,11 +183,11 @@ exports.resetPasswordPage = async (req, res, next) => {
 
 exports.updatePassword = async (req, res, next) => {
   try {
-    console.log(req.params); 
+    //console.log(req.params); 
     const {newpassword} = req.query;
     const {resetpasswordid} = req.params;
-    console.log(newpassword);
-    console.log(resetpasswordid);
+    //console.log(newpassword);
+    //console.log(resetpasswordid);
     const resetpasswordrequest = await FPR.findOne({ where : { id: resetpasswordid }});
     if (resetpasswordrequest) {
         const user = await User.findOne({where: { id : resetpasswordrequest.userId}});

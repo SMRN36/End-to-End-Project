@@ -73,13 +73,13 @@ exports.getAllExpensesforPagination = async (req, res, next) => {
 };
 
 exports.deleteExpense = async (req, res, next) => {
-  console.log("Request Parameter ID:", req.params.id);
+  //console.log("Request Parameter ID:", req.params.id);
   
   
   try {
     const id = new mongoose.Types.ObjectId(req.params.id.trim());
-    console.log("Expense ID:", id);
-    console.log("User ID:", req.user.id);
+    //console.log("Expense ID:", id);
+    //console.log("User ID:", req.user.id);
     const expense = await Expense.findOne({ _id: id, userId: req.user.id });
     const user = await User.findById(req.user.id);
     user.totalExpenses -= expense.amount;
