@@ -21,7 +21,7 @@ function login() {
   };
 
   axios
-    .post("http://localhost:3000/user/login", loginDetails)
+    .post("https://expensetracker-qiya.onrender.com/user/login", loginDetails)
     .then((result) => {
       alert(result.data.message);
       localStorage.setItem("token", result.data.token);
